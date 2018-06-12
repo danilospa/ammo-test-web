@@ -1,6 +1,7 @@
 # AMMO Test Web
 
 This project is the Web application for the AMMO tech test. It provides a single page for searching products using the API(https://github.com/danilospa/ammo-test-api)
+[Rematch](https://github.com/rematch/rematch) was used on this project in top of Redux. Rematch is a library that abstract Redux reducers and actions in a simpler way. You can read more about it in [this](https://hackernoon.com/redesigning-redux-b2baee8b8a38) post.
 
 ## Dependencies
 
