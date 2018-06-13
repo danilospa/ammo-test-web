@@ -14,7 +14,10 @@ class App extends React.Component {
   }
 
   handlePageSizeChange = (size) => {
-    this.props.fetchProducts({ pageSize: size });
+    const { totalProducts, productCurrentPage } = this.props;
+    const newPages = Math.ceil(totalProducts / size);
+    const currentPage = Math.min(productCurrentPage, newPages);
+    this.props.fetchProducts({ pageSize: size, page: currentPage });
   }
 
   render() {

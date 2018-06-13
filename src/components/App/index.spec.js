@@ -7,11 +7,11 @@ describe('App component', () => {
 
   beforeEach(() => {
     fetchProducts = jest.fn();
-    productCurrentPage = 'current page for product';
+    productCurrentPage = 2;
     productPages = 'total pages for product';
     products = 'list of products';
     productsPageSize = 'page size';
-    totalProducts = 'total products';
+    totalProducts = 100;
     component = shallow(
       <App
         fetchProducts={fetchProducts}
@@ -34,14 +34,30 @@ describe('App component', () => {
     expect(fetchProducts).toHaveBeenCalledWith({ page });
   });
 
-  it('fetches products with specified page size when changing it', () => {
-    const size = 2;
-    component.instance().handlePageSizeChange(size);
-    expect(fetchProducts).toHaveBeenCalledWith({ pageSize: size });
+  describe('when changing page size', () => {
+    const changePageSize = (size) => component.instance().handlePageSizeChange(size);
+
+    it('fetches products with specified page size', () => {
+      const size = 2;
+      changePageSize(size);
+      expect(fetchProducts).toHaveBeenCalledWith(expect.objectContaining({ pageSize: size }));
+    });
+
+    it('fetches products for current page when new number of pages is greater than the current one', () => {
+      const size = 2;
+      changePageSize(size);
+      expect(fetchProducts).toHaveBeenCalledWith(expect.objectContaining({ page: productCurrentPage }));
+    });
+
+    it('fetches products for last page of the new number of pages when it is lower than the current one', () => {
+      const size = 100;
+      changePageSize(size);
+      expect(fetchProducts).toHaveBeenCalledWith(expect.objectContaining({ page: 1 }));
+    });
   });
 
   it('renders total products found', () => {
-    expect(component.find('.app__products-count').text()).toMatch(totalProducts);
+    expect(component.find('.app__products-count').text()).toMatch(totalProducts.toString());
   });
   
   it('renders ProductList with correct prop', () => {
