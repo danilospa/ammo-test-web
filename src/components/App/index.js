@@ -1,6 +1,7 @@
 import React from 'react';
 import ProductList from '../ProductList/index';
 import Pagination from '../Pagination/index';
+import './index.css';
 
 class App extends React.Component {
   componentWillMount() {
@@ -15,9 +16,13 @@ class App extends React.Component {
     const { products, productPages, productCurrentPage } = this.props;
 
     return (
-      <div>
+      <div className="app">
         <ProductList products={products}/>
-        <Pagination current={productCurrentPage} pages={productPages} onClick={this.handlePagination}/>
+        <div className="app__product-list-footer">
+          <div className="app__pagination">
+            <Pagination current={productCurrentPage} pages={productPages} onClick={this.handlePagination}/>
+          </div>
+        </div>
       </div>
     );
   }

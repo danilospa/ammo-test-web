@@ -1,0 +1,14 @@
+.app {
+  width: 80%;
+  max-width: 1400px;
+  margin: auto;
+}
+
+.app__product-list-footer {
+  display: flex;
+  padding: 32px 0;
+}
+
+.app__pagination {
+  margin-left: auto;
+}

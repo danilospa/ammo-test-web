@@ -1,7 +1,26 @@
 import React from 'react';
+import './index.css';
 
-const Product = (props) => (
-  <div>{props.product.name}</div>
+const Product = ({ product }) => (
+  <div className="product">
+    {product.images.slice(0, 4).map((image, index) => (
+      <div key={index} className="product__image-wrapper">
+        <img src={image} alt={`Imagem para product ${product.name}`}/>
+      </div>
+    ))}
+    <div className="product__main-content">
+      <h3>{product.name}</h3>
+      <div className="product__information">
+        <p>{product.type}</p>
+        <p>{product.extra_information}</p>
+      </div>
+    </div>
+    <div className="product__price-wrapper">
+      <p className="product__old-price">{product.old_price}</p>
+      <span>por</span>
+      <p className="product__current-price">{product.current_price}</p>
+    </div>
+  </div>
 );
 
 export default Product;
