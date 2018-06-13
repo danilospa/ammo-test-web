@@ -22,11 +22,12 @@ class App extends React.Component {
   }
 
   render() {
-    const { fetchProducts, products, productPages, productCurrentPage, productsPageSize, totalProducts, searchTerm } = this.props;
+    const { fetchProducts, products, productPages, productCurrentPage,
+      productsPageSize, totalProducts, searchTerm, loading } = this.props;
 
     return (
       <div className="app">
-        <AppHeader fetchProducts={fetchProducts} searchTerm={searchTerm}/>
+        <AppHeader fetchProducts={fetchProducts} searchTerm={searchTerm} loading={loading}/>
 
         <div className={`app__content ${searchTerm && '-with-search-term'}`}>
           <div className="app__product-list-header">

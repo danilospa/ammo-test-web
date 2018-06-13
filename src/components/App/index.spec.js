@@ -14,6 +14,7 @@ describe('App component', () => {
       productsPageSize: 'page size',
       totalProducts: 100,
       searchTerm: 'search term',
+      loading: 'loading',
     };
     component = shallow(<App {...props}/>);
   });
@@ -54,6 +55,7 @@ describe('App component', () => {
     expect(component.find('AppHeader').props()).toEqual({
       fetchProducts: props.fetchProducts,
       searchTerm: props.searchTerm,
+      loading: props.loading,
     });
   });
 

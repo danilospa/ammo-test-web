@@ -8,6 +8,7 @@ const mapState = ({ products }) => ({
   productsPageSize: products.pageSize,
   totalProducts: products.total,
   searchTerm: products.searchTerm,
+  loading: products.loading,
 });
 
 const mapDispatch = ({ products: { fetchProducts }}) => ({

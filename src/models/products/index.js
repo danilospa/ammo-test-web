@@ -8,9 +8,12 @@ export default {
     pageSize: 10,
     total: 0,
     searchTerm: '',
+    loading: false,
   },
   reducers: {
     setState: (state, payload) => Object.assign({}, state, payload),
+    startLoading: (state, payload) => Object.assign({}, state, { loading: true }),
+    stopLoading: (state, payload) => Object.assign({}, state, { loading: false }),
   },
   effects: {
     async fetchProducts(payload = {}, rootState) {
@@ -19,6 +22,7 @@ export default {
       const searchTerm = payload.searchTerm === undefined
         ? rootState.products.searchTerm
         : payload.searchTerm;
+      this.startLoading();
       const response = await ammoTestApi.fetchProducts({ searchTerm, pageSize, page });
       this.setState({
         items: response.data.products,
@@ -28,6 +32,7 @@ export default {
         currentPage: page,
         searchTerm: searchTerm,
       });
+      this.stopLoading();
     },
   }
 };

@@ -4,6 +4,7 @@
   width: 100%;
   z-index: 1;
   top: 0;
+  box-shadow: 0 0 2px 1px #bbb;
 }
 
 .app-header__content {
@@ -16,8 +17,13 @@
   font-size: 24px;
 }
 
-.app-header__search-wrapper {
+.app-header__loader {
   margin-left: auto;
+  margin-top: 3px;
+}
+
+.app-header__search-wrapper {
+  align-items: flex-end;
   max-width: 440px;
   width: 60%;
 }
@@ -35,5 +41,9 @@
   .app-header__content {
     padding-left: 28px;
     padding-right: 28px;
+  }
+
+  .app-header__search-wrapper {
+    max-width: 40%;
   }
 }

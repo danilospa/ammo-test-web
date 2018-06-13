@@ -16,6 +16,7 @@ describe('AppContainer', () => {
       pageSize: 20,
       total: 100,
       searchTerm: 'search term',
+      loading: 'loading',
     };
     dispatch = {
       products: {
@@ -56,6 +57,11 @@ describe('AppContainer', () => {
   it('should pass correct seach term to component', () => {
     const props = component.find('App').props();
     expect(props.searchTerm).toEqual(products.searchTerm);
+  });
+
+  it('should pass correct loading to component', () => {
+    const props = component.find('App').props();
+    expect(props.loading).toEqual(products.loading);
   });
 
   it('should pass correct fetch products dispatcher to component', () => {

@@ -28,6 +28,10 @@ describe('products model', () => {
     it('sets search term as empty', () => {
       expect(subject.state.searchTerm).toEqual('');
     });
+
+    it('sets loading as false', () => {
+      expect(subject.state.loading).toEqual(false);
+    });
   });
 
   describe('reducers', () => {
@@ -42,6 +46,27 @@ describe('products model', () => {
         meta: 1,
       });
     });
+
+    it('sets loading as true on startLoading', () => {
+      const currentState = {
+        data: 'old data',
+      };
+      expect(subject.reducers.startLoading(currentState)).toEqual({
+        data: currentState.data,
+        loading: true,
+      });
+    });
+
+
+    it('sets loading as false on startLoading', () => {
+      const currentState = {
+        data: 'old data',
+      };
+      expect(subject.reducers.stopLoading(currentState)).toEqual({
+        data: currentState.data,
+        loading: false,
+      });
+    });
   });
 
   describe('effects', () => {
@@ -49,6 +74,8 @@ describe('products model', () => {
 
     beforeEach(() => {
       subject.reducers.setState = jest.fn();
+      subject.reducers.startLoading = jest.fn();
+      subject.reducers.stopLoading = jest.fn();
     });
 
     describe('fetch products', () => {
@@ -70,6 +97,11 @@ describe('products model', () => {
         ammoTestApi.fetchProducts.mockReturnValue(Promise.resolve(mockApiResponse));
       });
 
+      it('starts loading before request is made', () => {
+        effect();
+        expect(subject.reducers.startLoading).toBeCalledWith();
+      });
+
       it('fetches products from api using parameters from payload when specified', async () => {
         await effect({ searchTerm: 'term', pageSize: 2, page: 20 });
         expect(ammoTestApi.fetchProducts).toBeCalledWith({ searchTerm: 'term', pageSize: 2, page: 20 });
@@ -87,6 +119,11 @@ describe('products model', () => {
 					pageSize: productState.pageSize,
 					page: productState.currentPage,
 				});
+      });
+
+      it('stops loading after request is made', async () => {
+        await effect();
+        expect(subject.reducers.stopLoading).toBeCalledWith();
       });
 
       it('sets items when requests resolves', async () => {
