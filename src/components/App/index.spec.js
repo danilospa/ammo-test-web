@@ -3,35 +3,29 @@ import { shallow } from 'enzyme';
 import App from './index';
 
 describe('App component', () => {
-  let component, fetchProducts, products, productCurrentPage, productPages, productsPageSize, totalProducts;
+  let component, props;
 
   beforeEach(() => {
-    fetchProducts = jest.fn();
-    productCurrentPage = 2;
-    productPages = 'total pages for product';
-    products = 'list of products';
-    productsPageSize = 'page size';
-    totalProducts = 100;
-    component = shallow(
-      <App
-        fetchProducts={fetchProducts}
-        products={products}
-        productCurrentPage={productCurrentPage}
-        productPages={productPages}
-        productsPageSize={productsPageSize}
-        totalProducts={totalProducts}
-        />
-    );
+    props = {
+      fetchProducts: jest.fn(),
+      productCurrentPage: 2,
+      productPages: 'total pages for product',
+      products: 'list of products',
+      productsPageSize: 'page size',
+      totalProducts: 100,
+      searchTerm: 'search term',
+    };
+    component = shallow(<App {...props}/>);
   });
 
   it('fetches products when component will mount', () => {
-    expect(fetchProducts).toHaveBeenCalledWith();
+    expect(props.fetchProducts).toHaveBeenCalledWith();
   });
 
   it('fetches products for specified page when handling pagination', () => {
     const page = 2;
     component.instance().handlePagination(page);
-    expect(fetchProducts).toHaveBeenCalledWith({ page });
+    expect(props.fetchProducts).toHaveBeenCalledWith({ page });
   });
 
   describe('when changing page size', () => {
@@ -40,28 +34,35 @@ describe('App component', () => {
     it('fetches products with specified page size', () => {
       const size = 2;
       changePageSize(size);
-      expect(fetchProducts).toHaveBeenCalledWith(expect.objectContaining({ pageSize: size }));
+      expect(props.fetchProducts).toHaveBeenCalledWith(expect.objectContaining({ pageSize: size }));
     });
 
     it('fetches products for current page when new number of pages is greater than the current one', () => {
       const size = 2;
       changePageSize(size);
-      expect(fetchProducts).toHaveBeenCalledWith(expect.objectContaining({ page: productCurrentPage }));
+      expect(props.fetchProducts).toHaveBeenCalledWith(expect.objectContaining({ page: props.productCurrentPage }));
     });
 
     it('fetches products for last page of the new number of pages when it is lower than the current one', () => {
       const size = 100;
       changePageSize(size);
-      expect(fetchProducts).toHaveBeenCalledWith(expect.objectContaining({ page: 1 }));
+      expect(props.fetchProducts).toHaveBeenCalledWith(expect.objectContaining({ page: 1 }));
+    });
+  });
+
+  it('renders AppHeader with correct prop', () => {
+    expect(component.find('AppHeader').props()).toEqual({
+      fetchProducts: props.fetchProducts,
+      searchTerm: props.searchTerm,
     });
   });
 
   it('renders total products found', () => {
-    expect(component.find('.app__products-count').text()).toMatch(totalProducts.toString());
+    expect(component.find('.app__products-count').text()).toMatch(props.totalProducts.toString());
   });
   
   it('renders ProductList with correct prop', () => {
-    expect(component.find('ProductList').props().products).toEqual(products);
+    expect(component.find('ProductList').props().products).toEqual(props.products);
   });
 
   it('renders PageSizeSelector with correct props', () => {
@@ -69,14 +70,14 @@ describe('App component', () => {
       label: 'produtos por página',
       options: [5, 10, 20],
       onChange: component.instance().handlePageSizeChange,
-      pageSize: productsPageSize,
+      pageSize: props.productsPageSize,
     });
   });
   
   it('renders Pagination with correct props', () => {
     expect(component.find('Pagination').props()).toEqual({
-      current: productCurrentPage,
-      pages: productPages,
+      current: props.productCurrentPage,
+      pages: props.productPages,
       onClick: component.instance().handlePagination,
     });
   });

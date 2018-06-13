@@ -1,4 +1,5 @@
 import React from 'react';
+import AppHeader from '../AppHeader/index';
 import ProductList from '../ProductList/index';
 import Pagination from '../Pagination/index';
 import PageSizeSelector from '../PageSizeSelector/index';
@@ -21,20 +22,24 @@ class App extends React.Component {
   }
 
   render() {
-    const { products, productPages, productCurrentPage, productsPageSize, totalProducts } = this.props;
+    const { fetchProducts, products, productPages, productCurrentPage, productsPageSize, totalProducts, searchTerm } = this.props;
 
     return (
       <div className="app">
-        <div className="app__product-list-header">
-          <p className="app__products-count">{totalProducts} produtos encontrados</p>
-        </div>
+        <AppHeader fetchProducts={fetchProducts} searchTerm={searchTerm}/>
 
-        <ProductList products={products}/>
-        <div className="app__product-list-footer">
-          <PageSizeSelector label="produtos por página" options={[5, 10, 20]} onChange={this.handlePageSizeChange} pageSize={productsPageSize}/>
+        <div className="app__content">
+          <div className="app__product-list-header">
+            <p className="app__products-count">{totalProducts} produtos encontrados</p>
+          </div>
 
-          <div className="app__pagination">
-            <Pagination current={productCurrentPage} pages={productPages} onClick={this.handlePagination}/>
+          <ProductList products={products}/>
+          <div className="app__product-list-footer">
+            <PageSizeSelector label="produtos por página" options={[5, 10, 20]} onChange={this.handlePageSizeChange} pageSize={productsPageSize}/>
+
+            <div className="app__pagination">
+              <Pagination current={productCurrentPage} pages={productPages} onClick={this.handlePagination}/>
+            </div>
           </div>
         </div>
       </div>

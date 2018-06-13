@@ -1,0 +1,16 @@
+.app-header {
+  padding: 16px 48px;
+  background-color: #fff;
+  display: flex;
+}
+
+.app-header h1 {
+  color: #564317;
+  font-size: 24px;
+}
+
+.app-header__search-wrapper {
+  margin-left: auto;
+  max-width: 440px;
+  width: 60%;
+}

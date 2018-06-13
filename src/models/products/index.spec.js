@@ -24,6 +24,10 @@ describe('products model', () => {
     it('sets total as 0', () => {
       expect(subject.state.total).toEqual(0);
     });
+
+    it('sets search term as empty', () => {
+      expect(subject.state.searchTerm).toEqual('');
+    });
   });
 
   describe('reducers', () => {
@@ -51,6 +55,7 @@ describe('products model', () => {
       const productState = {
         pageSize: 10,
         currentPage: 2,
+        searchTerm: 'search term from state',
       };
       const effect = (payload) => subject.effects.fetchProducts.call(subject.reducers, payload, { products: productState });
 
@@ -66,13 +71,22 @@ describe('products model', () => {
       });
 
       it('fetches products from api using parameters from payload when specified', async () => {
-        await effect({ pageSize: 2, page: 20 });
-        expect(ammoTestApi.fetchProducts).toBeCalledWith({ pageSize: 2, page: 20 });
+        await effect({ searchTerm: 'term', pageSize: 2, page: 20 });
+        expect(ammoTestApi.fetchProducts).toBeCalledWith({ searchTerm: 'term', pageSize: 2, page: 20 });
+      });
+
+      it('fetches products from api using empty search term when it is specified', async () => {
+        await effect({ searchTerm: '' });
+        expect(ammoTestApi.fetchProducts).toBeCalledWith(expect.objectContaining({ searchTerm: '' }));
       });
 
       it('fetches products from api using parameters from store when none is specified in payload', async () => {
         await effect();
-        expect(ammoTestApi.fetchProducts).toBeCalledWith({ pageSize: productState.pageSize, page: productState.currentPage});
+        expect(ammoTestApi.fetchProducts).toBeCalledWith({
+          searchTerm: productState.searchTerm,
+					pageSize: productState.pageSize,
+					page: productState.currentPage,
+				});
       });
 
       it('sets items when requests resolves', async () => {
@@ -89,8 +103,15 @@ describe('products model', () => {
         }));
       });
 
+      it('sets total when requests resolves', async () => {
+        await effect();
+        expect(subject.reducers.setState).toBeCalledWith(expect.objectContaining({
+          total: mockApiResponse.data.total,
+        }));
+      });
+
       it('sets page size when requests resolves and when using payload', async () => {
-        await effect({ pageSize: 2, page: 20 });
+        await effect({ pageSize: 2 });
         expect(subject.reducers.setState).toBeCalledWith(expect.objectContaining({
           pageSize: 2,
         }));
@@ -104,7 +125,7 @@ describe('products model', () => {
       });
 
       it('sets current page when requests resolves and when using payload', async () => {
-        await effect({ pageSize: 2, page: 20 });
+        await effect({ page: 20 });
         expect(subject.reducers.setState).toBeCalledWith(expect.objectContaining({
           currentPage: 20,
         }));
@@ -117,10 +138,17 @@ describe('products model', () => {
         }));
       });
 
-      it('sets total when requests resolves', async () => {
+      it('sets search term when requests resolves and when using payload', async () => {
+        await effect({ searchTerm: 'term' });
+        expect(subject.reducers.setState).toBeCalledWith(expect.objectContaining({
+          searchTerm: 'term',
+        }));
+      });
+
+      it('sets search term when requests resolves and when no using payload', async () => {
         await effect();
         expect(subject.reducers.setState).toBeCalledWith(expect.objectContaining({
-          total: mockApiResponse.data.total,
+          searchTerm: productState.searchTerm,
         }));
       });
     });

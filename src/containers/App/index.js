@@ -7,6 +7,7 @@ const mapState = ({ products }) => ({
   productCurrentPage: products.currentPage,
   productsPageSize: products.pageSize,
   totalProducts: products.total,
+  searchTerm: products.searchTerm,
 });
 
 const mapDispatch = ({ products: { fetchProducts }}) => ({
