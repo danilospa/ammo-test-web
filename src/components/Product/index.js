@@ -1,4 +1,5 @@
 import React from 'react';
+import Price from '../Price';
 import './index.css';
 
 const Product = ({ product }) => (
@@ -16,9 +17,13 @@ const Product = ({ product }) => (
       </div>
     </div>
     <div className="product__price-wrapper">
-      <p className="product__old-price">{product.old_price}</p>
+      <p className="product__old-price">
+        <Price value={product.old_price}/>
+      </p>
       <span>por</span>
-      <p className="product__current-price">{product.current_price}</p>
+      <p className="product__current-price">
+        <Price value={product.current_price}/>
+      </p>
     </div>
   </div>
 );

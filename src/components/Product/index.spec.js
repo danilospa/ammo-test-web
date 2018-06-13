@@ -9,6 +9,8 @@ describe('Product component', () => {
     product = {
       name: 'product name',
       images: ['first image', 'second image', 'third image', 'fourth image', 'fifth image'],
+      old_price: 100,
+      current_price: 100,
     };
     component = shallow(<Product product={product}/>);
   });
@@ -25,5 +27,14 @@ describe('Product component', () => {
     product.images.slice(0, 4).forEach((image, index) => {
       expect(component.find('.product__image-wrapper img').at(index).props().src).toEqual(image);
     });
+  });
+
+  it('renders old price using price formatter', () => {
+    expect(component.find('.product__old-price Price').props().value).toEqual(product.old_price);
+  });
+
+
+  it('renders current price using price formatter', () => {
+    expect(component.find('.product__current-price Price').props().value).toEqual(product.current_price);
   });
 });
