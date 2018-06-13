@@ -27,6 +27,9 @@ class App extends React.Component {
     return (
       <div className="app">
         <AppHeader fetchProducts={fetchProducts} searchTerm={searchTerm}/>
+        { searchTerm &&
+          (<h2 className="app__search-term">{searchTerm}</h2>)
+        }
 
         <div className="app__content">
           <div className="app__product-list-header">

@@ -57,6 +57,10 @@ describe('App component', () => {
     });
   });
 
+  it('renders search term', () => {
+    expect(component.find('h2').text()).toEqual(props.searchTerm);
+  });
+
   it('renders total products found', () => {
     expect(component.find('.app__products-count').text()).toMatch(props.totalProducts.toString());
   });
