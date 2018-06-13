@@ -6,6 +6,7 @@ const mapState = ({ products }) => ({
   productPages: products.pages,
   productCurrentPage: products.currentPage,
   productsPageSize: products.pageSize,
+  totalProducts: products.total,
 });
 
 const mapDispatch = ({ products: { fetchProducts }}) => ({

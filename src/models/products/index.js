@@ -6,6 +6,7 @@ export default {
     pages: 1,
     currentPage: 1,
     pageSize: 10,
+    total: 0,
   },
   reducers: {
     setState: (state, payload) => Object.assign({}, state, payload),
@@ -18,6 +19,7 @@ export default {
       this.setState({
         items: response.data.products,
         pages: response.data.pages,
+        total: response.data.total,
         pageSize: pageSize,
         currentPage: page,
       });

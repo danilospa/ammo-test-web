@@ -20,6 +20,10 @@ describe('products model', () => {
     it('sets page size as 10', () => {
       expect(subject.state.currentPage).toEqual(1);
     });
+
+    it('sets total as 0', () => {
+      expect(subject.state.total).toEqual(0);
+    });
   });
 
   describe('reducers', () => {
@@ -55,6 +59,7 @@ describe('products model', () => {
           data: {
             products: 'products response',
             pages: 10,
+            total: 100,
           },
         };
         ammoTestApi.fetchProducts.mockReturnValue(Promise.resolve(mockApiResponse));
@@ -109,6 +114,13 @@ describe('products model', () => {
         await effect();
         expect(subject.reducers.setState).toBeCalledWith(expect.objectContaining({
           currentPage: productState.currentPage,
+        }));
+      });
+
+      it('sets total when requests resolves', async () => {
+        await effect();
+        expect(subject.reducers.setState).toBeCalledWith(expect.objectContaining({
+          total: mockApiResponse.data.total,
         }));
       });
     });

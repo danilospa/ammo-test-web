@@ -14,6 +14,7 @@ describe('AppContainer', () => {
       pages: 10,
       currentPage: 5,
       pageSize: 20,
+      total: 100,
     };
     dispatch = {
       products: {
@@ -44,6 +45,11 @@ describe('AppContainer', () => {
   it('should pass correct page size to component', () => {
     const props = component.find('App').props();
     expect(props.productsPageSize).toEqual(products.pageSize);
+  });
+
+  it('should pass correct total products to component', () => {
+    const props = component.find('App').props();
+    expect(props.totalProducts).toEqual(products.total);
   });
 
   it('should pass correct fetch products dispatcher to component', () => {

@@ -4,6 +4,20 @@
   margin: auto;
 }
 
+.app__product-list-header {
+  display: flex;
+  padding: 16px 0;
+}
+
+.app__products-count {
+  font-weight: 600;
+  margin-right: auto;
+  border-bottom: 2px solid #bdbd56;
+  color: #666;
+  text-transform: uppercase;
+  padding-bottom: 8px;
+}
+
 .app__product-list-footer {
   display: flex;
   padding: 32px 0;

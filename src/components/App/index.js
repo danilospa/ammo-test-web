@@ -18,10 +18,14 @@ class App extends React.Component {
   }
 
   render() {
-    const { products, productPages, productCurrentPage, productsPageSize } = this.props;
+    const { products, productPages, productCurrentPage, productsPageSize, totalProducts } = this.props;
 
     return (
       <div className="app">
+        <div className="app__product-list-header">
+          <p className="app__products-count">{totalProducts} produtos encontrados</p>
+        </div>
+
         <ProductList products={products}/>
         <div className="app__product-list-footer">
           <PageSizeSelector label="produtos por página" options={[5, 10, 20]} onChange={this.handlePageSizeChange} pageSize={productsPageSize}/>

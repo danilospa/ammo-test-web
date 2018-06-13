@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import App from './index';
 
 describe('App component', () => {
-  let component, fetchProducts, products, productCurrentPage, productPages, productsPageSize;
+  let component, fetchProducts, products, productCurrentPage, productPages, productsPageSize, totalProducts;
 
   beforeEach(() => {
     fetchProducts = jest.fn();
@@ -11,6 +11,7 @@ describe('App component', () => {
     productPages = 'total pages for product';
     products = 'list of products';
     productsPageSize = 'page size';
+    totalProducts = 'total products';
     component = shallow(
       <App
         fetchProducts={fetchProducts}
@@ -18,6 +19,7 @@ describe('App component', () => {
         productCurrentPage={productCurrentPage}
         productPages={productPages}
         productsPageSize={productsPageSize}
+        totalProducts={totalProducts}
         />
     );
   });
@@ -36,6 +38,10 @@ describe('App component', () => {
     const size = 2;
     component.instance().handlePageSizeChange(size);
     expect(fetchProducts).toHaveBeenCalledWith({ pageSize: size });
+  });
+
+  it('renders total products found', () => {
+    expect(component.find('.app__products-count').text()).toMatch(totalProducts);
   });
   
   it('renders ProductList with correct prop', () => {
