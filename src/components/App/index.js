@@ -1,10 +1,11 @@
 import React from 'react';
 import ProductList from '../ProductList/index';
 import Pagination from '../Pagination/index';
+import PageSizeSelector from '../PageSizeSelector/index';
 import './index.css';
 
 class App extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchProducts();
   }
 
@@ -12,13 +13,19 @@ class App extends React.Component {
     this.props.fetchProducts({ page });
   }
 
+  handlePageSizeChange = (size) => {
+    this.props.fetchProducts({ pageSize: size });
+  }
+
   render() {
-    const { products, productPages, productCurrentPage } = this.props;
+    const { products, productPages, productCurrentPage, productsPageSize } = this.props;
 
     return (
       <div className="app">
         <ProductList products={products}/>
         <div className="app__product-list-footer">
+          <PageSizeSelector label="produtos por página" options={[5, 10, 20]} onChange={this.handlePageSizeChange} pageSize={productsPageSize}/>
+
           <div className="app__pagination">
             <Pagination current={productCurrentPage} pages={productPages} onClick={this.handlePagination}/>
           </div>

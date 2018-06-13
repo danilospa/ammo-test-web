@@ -3,19 +3,21 @@ import { shallow } from 'enzyme';
 import App from './index';
 
 describe('App component', () => {
-  let component, fetchProducts, products, productCurrentPage, productPages;
+  let component, fetchProducts, products, productCurrentPage, productPages, productsPageSize;
 
   beforeEach(() => {
     fetchProducts = jest.fn();
     productCurrentPage = 'current page for product';
     productPages = 'total pages for product';
     products = 'list of products';
+    productsPageSize = 'page size';
     component = shallow(
       <App
         fetchProducts={fetchProducts}
         products={products}
         productCurrentPage={productCurrentPage}
         productPages={productPages}
+        productsPageSize={productsPageSize}
         />
     );
   });
@@ -29,9 +31,24 @@ describe('App component', () => {
     component.instance().handlePagination(page);
     expect(fetchProducts).toHaveBeenCalledWith({ page });
   });
+
+  it('fetches products with specified page size when changing it', () => {
+    const size = 2;
+    component.instance().handlePageSizeChange(size);
+    expect(fetchProducts).toHaveBeenCalledWith({ pageSize: size });
+  });
   
   it('renders ProductList with correct prop', () => {
     expect(component.find('ProductList').props().products).toEqual(products);
+  });
+
+  it('renders PageSizeSelector with correct props', () => {
+    expect(component.find('PageSizeSelector').props()).toEqual({
+      label: 'produtos por página',
+      options: [5, 10, 20],
+      onChange: component.instance().handlePageSizeChange,
+      pageSize: productsPageSize,
+    });
   });
   
   it('renders Pagination with correct props', () => {

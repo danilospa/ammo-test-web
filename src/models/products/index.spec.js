@@ -5,41 +5,33 @@ jest.mock('../../clients/ammoTestApi');
 
 describe('products model', () => {
   describe('initial state', () => {
-    it('set items as empty array', () => {
+    it('sets items as empty array', () => {
       expect(subject.state.items).toEqual([]);
     });
 
-    it('set pages as 0', () => {
-      expect(subject.state.pages).toEqual(0);
+    it('sets pages as 1', () => {
+      expect(subject.state.pages).toEqual(1);
     });
 
-    it('set current page as 1', () => {
+    it('sets current page as 1', () => {
+      expect(subject.state.currentPage).toEqual(1);
+    });
+
+    it('sets page size as 10', () => {
       expect(subject.state.currentPage).toEqual(1);
     });
   });
 
   describe('reducers', () => {
-    it('sets specified items on setItems', () => {
-      const currentState = { items: [] };
-      const newItems = 'new items';
-      expect(subject.reducers.setItems(currentState, newItems)).toEqual({
-        items: newItems,
-      });
-    });
-
-    it('sets specified pages on setPages', () => {
-      const currentState = { pages: 0 };
-      const newPageCount = 1;
-      expect(subject.reducers.setPages(currentState, newPageCount)).toEqual({
-        pages: newPageCount,
-      });
-    });
-
-    it('sets specified current page on setCurrentPage', () => {
-      const currentState = { currentPage: 0 };
-      const newCurrentPage = 1;
-      expect(subject.reducers.setCurrentPage(currentState, newCurrentPage)).toEqual({
-        currentPage: newCurrentPage,
+    it('sets specified payload on setState', () => {
+      const currentState = {
+        data: 'old data',
+        meta: 1,
+      };
+      const newData = { data: 'new data' };
+      expect(subject.reducers.setState(currentState, newData)).toEqual({
+        data: newData.data,
+        meta: 1,
       });
     });
   });
@@ -48,12 +40,16 @@ describe('products model', () => {
     let mockApiResponse;
 
     beforeEach(() => {
-      subject.reducers.setItems = jest.fn();
-      subject.reducers.setPages = jest.fn();
-      subject.reducers.setCurrentPage = jest.fn();
+      subject.reducers.setState = jest.fn();
     });
 
     describe('fetch products', () => {
+      const productState = {
+        pageSize: 10,
+        currentPage: 2,
+      };
+      const effect = (payload) => subject.effects.fetchProducts.call(subject.reducers, payload, { products: productState });
+
       beforeEach(() => {
         mockApiResponse = {
           data: {
@@ -64,24 +60,56 @@ describe('products model', () => {
         ammoTestApi.fetchProducts.mockReturnValue(Promise.resolve(mockApiResponse));
       });
 
+      it('fetches products from api using parameters from payload when specified', async () => {
+        await effect({ pageSize: 2, page: 20 });
+        expect(ammoTestApi.fetchProducts).toBeCalledWith({ pageSize: 2, page: 20 });
+      });
+
+      it('fetches products from api using parameters from store when none is specified in payload', async () => {
+        await effect();
+        expect(ammoTestApi.fetchProducts).toBeCalledWith({ pageSize: productState.pageSize, page: productState.currentPage});
+      });
+
       it('sets items when requests resolves', async () => {
-        await subject.effects.fetchProducts.call(subject.reducers);
-        expect(subject.reducers.setItems).toBeCalledWith(mockApiResponse.data.products);
+        await effect();
+        expect(subject.reducers.setState).toBeCalledWith(expect.objectContaining({
+          items: mockApiResponse.data.products,
+        }));
       });
 
       it('sets pages when requests resolves', async () => {
-        await subject.effects.fetchProducts.call(subject.reducers);
-        expect(subject.reducers.setPages).toBeCalledWith(mockApiResponse.data.pages);
+        await effect();
+        expect(subject.reducers.setState).toBeCalledWith(expect.objectContaining({
+          pages: mockApiResponse.data.pages,
+        }));
       });
 
-      it('sets current page with given payload when requests resolves', async () => {
-        await subject.effects.fetchProducts.call(subject.reducers, { page: 2 });
-        expect(subject.reducers.setCurrentPage).toBeCalledWith(2);
+      it('sets page size when requests resolves and when using payload', async () => {
+        await effect({ pageSize: 2, page: 20 });
+        expect(subject.reducers.setState).toBeCalledWith(expect.objectContaining({
+          pageSize: 2,
+        }));
       });
 
-      it('sets default current page when none is given and when requests resolves', async () => {
-        await subject.effects.fetchProducts.call(subject.reducers);
-        expect(subject.reducers.setCurrentPage).toBeCalledWith(1);
+      it('sets page size when requests resolves and when no using payload', async () => {
+        await effect();
+        expect(subject.reducers.setState).toBeCalledWith(expect.objectContaining({
+          pageSize: productState.pageSize,
+        }));
+      });
+
+      it('sets current page when requests resolves and when using payload', async () => {
+        await effect({ pageSize: 2, page: 20 });
+        expect(subject.reducers.setState).toBeCalledWith(expect.objectContaining({
+          currentPage: 20,
+        }));
+      });
+
+      it('sets current page when requests resolves and when no using payload', async () => {
+        await effect();
+        expect(subject.reducers.setState).toBeCalledWith(expect.objectContaining({
+          currentPage: productState.currentPage,
+        }));
       });
     });
   });

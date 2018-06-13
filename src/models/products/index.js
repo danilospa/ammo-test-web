@@ -3,20 +3,24 @@ import ammoTestApi from '../../clients/ammoTestApi';
 export default {
   state: {
     items: [],
-    pages: 0,
+    pages: 1,
     currentPage: 1,
+    pageSize: 10,
   },
   reducers: {
-    setItems: (state, payload) => Object.assign({}, state, { items: payload }),
-    setPages: (state, payload) => Object.assign({}, state, { pages: payload }),
-    setCurrentPage: (state, payload) => Object.assign({}, state, { currentPage: payload }),
+    setState: (state, payload) => Object.assign({}, state, payload),
   },
   effects: {
-    async fetchProducts(payload = {}) {
-      const response = await ammoTestApi.fetchProducts(payload);
-      this.setItems(response.data.products);
-      this.setPages(response.data.pages);
-      this.setCurrentPage(payload.page || 1);
+    async fetchProducts(payload = {}, rootState) {
+      const pageSize = payload.pageSize || rootState.products.pageSize;
+      const page = payload.page || rootState.products.currentPage;
+      const response = await ammoTestApi.fetchProducts({ pageSize, page });
+      this.setState({
+        items: response.data.products,
+        pages: response.data.pages,
+        pageSize: pageSize,
+        currentPage: page,
+      });
     },
   }
 };
