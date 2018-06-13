@@ -15,16 +15,16 @@ const Product = ({ product }) => (
       <h3>{product.name}</h3>
       <div className="product__information">
         <p>{product.type}</p>
-        <p>{product.extra_information}</p>
+        <p>{product.extraInformation}</p>
       </div>
     </div>
     <div className="product__price-wrapper">
       <p className="product__old-price">
-        <Price value={product.old_price}/>
+        <Price value={product.oldPrice}/>
       </p>
       <span>por</span>
       <p className="product__current-price">
-        <Price value={product.current_price}/>
+        <Price value={product.currentPrice}/>
       </p>
     </div>
   </div>

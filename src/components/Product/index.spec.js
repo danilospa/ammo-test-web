@@ -9,8 +9,8 @@ describe('Product component', () => {
     product = {
       name: 'product name',
       images: ['first image', 'second image', 'third image', 'fourth image', 'fifth image'],
-      old_price: 100,
-      current_price: 100,
+      oldPrice: 100,
+      currentPrice: 100,
     };
     component = shallow(<Product product={product}/>);
   });
@@ -30,11 +30,11 @@ describe('Product component', () => {
   });
 
   it('renders old price using price formatter', () => {
-    expect(component.find('.product__old-price Price').props().value).toEqual(product.old_price);
+    expect(component.find('.product__old-price Price').props().value).toEqual(product.oldPrice);
   });
 
 
   it('renders current price using price formatter', () => {
-    expect(component.find('.product__current-price Price').props().value).toEqual(product.current_price);
+    expect(component.find('.product__current-price Price').props().value).toEqual(product.currentPrice);
   });
 });
