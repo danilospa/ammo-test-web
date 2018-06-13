@@ -1,15 +1,11 @@
 .app__content {
   width: 80%;
   max-width: 1400px;
-  margin: auto;
+  margin: 60px auto auto;
 }
 
-.app__search-term {
-  font-size: 48px;
-  font-weight: 400;
-  padding: 16px 48px;
-  background-color: #ebeaef;
-  color: #737279;
+.app__content.-with-search-term {
+  margin-top: 147px;
 }
 
 .app__product-list-header {

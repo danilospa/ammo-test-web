@@ -57,10 +57,6 @@ describe('App component', () => {
     });
   });
 
-  it('renders search term', () => {
-    expect(component.find('h2').text()).toEqual(props.searchTerm);
-  });
-
   it('renders total products found', () => {
     expect(component.find('.app__products-count').text()).toMatch(props.totalProducts.toString());
   });
@@ -102,5 +98,15 @@ describe('App component', () => {
     it('hides Pagination', () => {
       expect(component.find('Pagination').length).toEqual(0);
     });
+  });
+
+  it('adds -with-search-term class to app content when search term is not empty', () => {
+    expect(component.find('.app__content').hasClass('-with-search-term')).toBe(true);
+  });
+
+
+  it('removes -with-search-term class to app content when search term is empty', () => {
+    component.setProps({ searchTerm: '' });
+    expect(component.find('.app__content').hasClass('-with-search-term')).toBe(false);
   });
 });

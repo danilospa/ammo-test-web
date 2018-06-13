@@ -1,6 +1,13 @@
 .app-header {
-  padding: 16px 48px;
   background-color: #fff;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  top: 0;
+}
+
+.app-header__content {
+  padding: 16px 48px;
   display: flex;
 }
 
@@ -15,8 +22,17 @@
   width: 60%;
 }
 
+.app-header__search-term {
+  font-size: 48px;
+  font-weight: 400;
+  padding: 16px 48px;
+  background-color: #ebeaef;
+  color: #737279;
+}
+
+
 @media (max-width: 486px) {
-  .app-header {
+  .app-header__content {
     padding-left: 28px;
     padding-right: 28px;
   }

@@ -16,4 +16,8 @@ describe('AppHeader component', () => {
   it('renders ProductSearchInput with correct props', () => {
     expect(component.find('ProductSearchInput').props()).toEqual(props);
   });
+
+  it('renders search term', () => {
+    expect(component.find('h2').text()).toEqual(props.searchTerm);
+  });
 });
