@@ -4,11 +4,13 @@ import './index.css';
 
 const Product = ({ product }) => (
   <div className="product">
-    {product.images.slice(0, 4).map((image, index) => (
-      <div key={index} className="product__image-wrapper">
-        <img src={image} alt={`Imagem para product ${product.name}`}/>
-      </div>
-    ))}
+    <div className="product__images">
+      {product.images.slice(0, 4).map((image, index) => (
+        <div key={index} className="product__image-wrapper">
+          <img src={image} alt={`Imagem para product ${product.name}`}/>
+        </div>
+      ))}
+    </div>
     <div className="product__main-content">
       <h3>{product.name}</h3>
       <div className="product__information">

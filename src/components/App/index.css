@@ -34,3 +34,13 @@
 .app__pagination {
   margin-left: auto;
 }
+
+@media (max-width: 486px) {
+  .app__product-list-footer {
+    flex-direction: column;
+  }
+
+  .app__pagination {
+    margin-top: 16px;
+  }
+}

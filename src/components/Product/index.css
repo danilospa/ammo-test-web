@@ -5,10 +5,15 @@
   padding: 8px;
 }
 
+.product__images {
+  display: flex;
+}
+
 .product__image-wrapper {
   width: 120px;
   overflow: hidden;
   position: relative;
+  flex-grow: 1;
 }
 
 .product__image-wrapper img {
@@ -54,4 +59,39 @@
 
 .product__current-price {
   color: #000;
+}
+
+@media (max-width: 992px) {
+  .product {
+    height: auto;
+    flex-direction: column;
+  }
+
+  .product__image-wrapper {
+    min-height: 120px;
+  }
+
+  .product__main-content {
+    padding: 16px;
+  }
+
+  .product__price-wrapper {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 540px) {
+  .product__images {
+    flex-wrap: wrap;
+  }
+
+  .product__image-wrapper {
+    flex: 1 0 50%
+  }
+}
+
+@media (max-width: 486px) {
+  .product__image-wrapper {
+    min-height: 96px;
+  }
 }
