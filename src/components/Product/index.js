@@ -7,7 +7,7 @@ const Product = ({ product }) => (
     <div className="product__images">
       {product.images.slice(0, 4).map((image, index) => (
         <div key={index} className="product__image-wrapper">
-          <img src={image} alt={`Imagem para product ${product.name}`}/>
+          <img src={image} alt={`Imagem para produto ${product.name}`}/>
         </div>
       ))}
     </div>

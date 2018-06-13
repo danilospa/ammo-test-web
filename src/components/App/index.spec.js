@@ -85,4 +85,22 @@ describe('App component', () => {
       onClick: component.instance().handlePagination,
     });
   });
+
+  describe('when there are no products', () => {
+    beforeEach(() => {
+      component.setProps({ products: [] });
+    });
+
+    it('hides ProductList', () => {
+      expect(component.find('ProductList').length).toEqual(0);
+    });
+
+    it('hides PageSizeSelector', () => {
+      expect(component.find('PageSizeSelector').length).toEqual(0);
+    });
+
+    it('hides Pagination', () => {
+      expect(component.find('Pagination').length).toEqual(0);
+    });
+  });
 });

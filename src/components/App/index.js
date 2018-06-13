@@ -36,14 +36,18 @@ class App extends React.Component {
             <p className="app__products-count">{totalProducts} produtos encontrados</p>
           </div>
 
-          <ProductList products={products}/>
-          <div className="app__product-list-footer">
-            <PageSizeSelector label="produtos por página" options={[5, 10, 20]} onChange={this.handlePageSizeChange} pageSize={productsPageSize}/>
+          { !!products.length && (
+            <div>
+              <ProductList products={products}/>
+              <div className="app__product-list-footer">
+                <PageSizeSelector label="produtos por página" options={[5, 10, 20]} onChange={this.handlePageSizeChange} pageSize={productsPageSize}/>
 
-            <div className="app__pagination">
-              <Pagination current={productCurrentPage} pages={productPages} onClick={this.handlePagination}/>
+                <div className="app__pagination">
+                  <Pagination current={productCurrentPage} pages={productPages} onClick={this.handlePagination}/>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     );
