@@ -17,7 +17,7 @@ describe('ammoTestApi client', () => {
         pageSize: 'size',
         page: 'page',
       });
-      expect(axios.get).toBeCalledWith(`${AMMO_TEST_API_BASE_URL}/v1/products?q=term&page_size=size&page=page`);
+      expect(axios.get).toBeCalledWith(`${AMMO_TEST_API_BASE_URL}/v1/products?q=term&pageSize=size&page=page`);
     });
 
     it('returns correct value', () => {

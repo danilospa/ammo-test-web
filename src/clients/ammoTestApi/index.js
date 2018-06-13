@@ -8,7 +8,7 @@ const { searchTerm, pageSize, page } = opts;
     queryParams.push(`q=${searchTerm}`);
   }
   if (pageSize) {
-    queryParams.push(`page_size=${pageSize}`);
+    queryParams.push(`pageSize=${pageSize}`);
   }
   if (page) {
     queryParams.push(`page=${page}`);
