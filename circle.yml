@@ -1,0 +1,23 @@
+machine:
+  node:
+    version: 8.11.2
+  environment:
+    REACT_APP_AMMO_TEST_API_BASE_URL: http://ammo-api.ddns.net
+
+dependencies:
+  override:
+    - yarn install
+
+test:
+  override:
+    - yarn test
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - aws configure set default.region us-east-1
+      - aws configure set aws_access_key_id $AWS_ACCESS_KEY
+      - aws configure set aws_secret_access_key $AWS_SECRET_KEY
+      - yarn run build
+      - aws s3 cp build/ s3://ammo-test-web/ --recursive --acl=public-read

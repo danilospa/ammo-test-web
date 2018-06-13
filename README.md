@@ -15,6 +15,11 @@ First of all, make sure you have the correct version of Node, then install [Yarn
 $ yarn install
 ```
 
+Copy the configuration file and change it as needed:
+```bash
+$ cp .env.local.example .env.local
+```
+
 To start up the server:
 ```bash
 $ yarn start
@@ -26,3 +31,8 @@ To run the tests, execute:
 ```bash
 $ yarn test
 ```
+
+## How to deploy
+
+Production deploy is made automatically by [CircleCI](https://circleci.com/gh/danilospa/ammo-test-web) when merging into master branch.  
+The static files are send to a AWS S3 bucket. They are served through AWS CloudFront.
