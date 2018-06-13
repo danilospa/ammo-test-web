@@ -21,3 +21,4 @@ deployment:
       - aws configure set aws_secret_access_key $AWS_SECRET_KEY
       - yarn run build
       - aws s3 cp build/ s3://ammo-test-web/ --recursive --acl=public-read
+      - aws cloudfront create-invalidation --distribution-id $CDN_DISTRIBUTION_ID --paths '/index.html'
