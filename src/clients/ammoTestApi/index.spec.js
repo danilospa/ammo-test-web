@@ -6,9 +6,18 @@ jest.mock('axios');
 
 describe('ammoTestApi client', () => {
   describe('fetchProducts', () => {
-    it('performs correct request', () => {
+    it('performs correct request when passing no parameters', () => {
       subject.fetchProducts();
       expect(axios.get).toBeCalledWith(`${AMMO_TEST_API_BASE_URL}/v1/products`);
+    });
+
+    it('performs correct request when passing parameters', () => {
+      subject.fetchProducts({
+        searchTerm: 'term',
+        pageSize: 'size',
+        page: 'page',
+      });
+      expect(axios.get).toBeCalledWith(`${AMMO_TEST_API_BASE_URL}/v1/products?q=term&page_size=size&page=page`);
     });
 
     it('returns correct value', () => {

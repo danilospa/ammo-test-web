@@ -1,0 +1,32 @@
+.pagination {
+  display: flex;
+}
+
+.pagination button {
+  height: 36px;
+  line-height: 36px;
+  width: 36px;
+  font-weight: 600;
+  color: #666;
+  text-align: center;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.pagination button.-active {
+  box-shadow: 0 0 2px 1px #bbb;
+  z-index: 1;
+  background-color: #fff;
+}
+
+.pagination.-first button:nth-child(1),
+.pagination.-first button:nth-child(2),
+.pagination.-last button:nth-last-child(2),
+.pagination.-last button:nth-last-child(1) {
+  color: #bbb;
+  padding: 0;
+}
+
+  
