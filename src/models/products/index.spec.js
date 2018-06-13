@@ -32,6 +32,10 @@ describe('products model', () => {
     it('sets loading as false', () => {
       expect(subject.state.loading).toEqual(false);
     });
+
+    it('sets fetch error as false', () => {
+      expect(subject.state.fetchError).toEqual(false);
+    });
   });
 
   describe('reducers', () => {
@@ -57,7 +61,6 @@ describe('products model', () => {
       });
     });
 
-
     it('sets loading as false on startLoading', () => {
       const currentState = {
         data: 'old data',
@@ -65,6 +68,16 @@ describe('products model', () => {
       expect(subject.reducers.stopLoading(currentState)).toEqual({
         data: currentState.data,
         loading: false,
+      });
+    });
+
+    it('sets fetch error with given payload on setFetchError', () => {
+      const currentState = {
+        data: 'old data',
+      };
+      expect(subject.reducers.setFetchError(currentState, 'fetch error value')).toEqual({
+        data: currentState.data,
+        fetchError: 'fetch error value',
       });
     });
   });
@@ -76,6 +89,7 @@ describe('products model', () => {
       subject.reducers.setState = jest.fn();
       subject.reducers.startLoading = jest.fn();
       subject.reducers.stopLoading = jest.fn();
+      subject.reducers.setFetchError = jest.fn();
     });
 
     describe('fetch products', () => {
@@ -100,6 +114,11 @@ describe('products model', () => {
       it('starts loading before request is made', () => {
         effect();
         expect(subject.reducers.startLoading).toBeCalledWith();
+      });
+
+      it('sets fetch error as false before request is made', () => {
+        effect();
+        expect(subject.reducers.setFetchError).toBeCalledWith(false);
       });
 
       it('fetches products from api using parameters from payload when specified', async () => {
@@ -187,6 +206,18 @@ describe('products model', () => {
         expect(subject.reducers.setState).toBeCalledWith(expect.objectContaining({
           searchTerm: productState.searchTerm,
         }));
+      });
+
+      it('sets fetch error as true when request fails', async () => {
+        ammoTestApi.fetchProducts.mockReturnValue(Promise.reject());
+        await effect();
+        expect(subject.reducers.setFetchError).toBeCalledWith(true);
+      });
+
+      it('sets products as empty array  when request fails', async () => {
+        ammoTestApi.fetchProducts.mockReturnValue(Promise.reject());
+        await effect();
+        expect(subject.reducers.setState).toBeCalledWith({ items: [] });
       });
     });
   });

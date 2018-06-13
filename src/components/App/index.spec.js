@@ -15,6 +15,7 @@ describe('App component', () => {
       totalProducts: 100,
       searchTerm: 'search term',
       loading: 'loading',
+      fetchError: false,
     };
     component = shallow(<App {...props}/>);
   });
@@ -106,9 +107,30 @@ describe('App component', () => {
     expect(component.find('.app__content').hasClass('-with-search-term')).toBe(true);
   });
 
-
   it('removes -with-search-term class to app content when search term is empty', () => {
     component.setProps({ searchTerm: '' });
     expect(component.find('.app__content').hasClass('-with-search-term')).toBe(false);
+  });
+
+  describe('when there is a fetch error', () => {
+    beforeEach(() => {
+      component.setProps({ fetchError: true });
+    });
+
+    it('show error message', () => {
+      expect(component.find('.app__fetch-error-message').length).toEqual(1);
+    });
+
+    it('hides products list header', () => {
+      expect(component.find('.app__product-list-header').length).toEqual(0);
+    });
+  });
+
+  it('hides error message when there is no fetch error', () => {
+    expect(component.find('.app__fetch-error-message').length).toEqual(0);
+  });
+
+  it('show products list header when there is no fetch error', () => {
+    expect(component.find('.app__product-list-header').length).toEqual(1);
   });
 });

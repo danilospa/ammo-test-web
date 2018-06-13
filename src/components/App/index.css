@@ -8,6 +8,11 @@
   margin-top: 147px;
 }
 
+.app__fetch-error-message {
+  padding-top: 16px;
+  font-size: 24px;
+}
+
 .app__product-list-header {
   display: flex;
   padding: 16px 0;

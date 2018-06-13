@@ -17,6 +17,7 @@ describe('AppContainer', () => {
       total: 100,
       searchTerm: 'search term',
       loading: 'loading',
+      fetchError: 'fetch error',
     };
     dispatch = {
       products: {
@@ -62,6 +63,11 @@ describe('AppContainer', () => {
   it('should pass correct loading to component', () => {
     const props = component.find('App').props();
     expect(props.loading).toEqual(products.loading);
+  });
+
+  it('should pass correct fetch error to component', () => {
+    const props = component.find('App').props();
+    expect(props.fetchError).toEqual(products.fetchError);
   });
 
   it('should pass correct fetch products dispatcher to component', () => {

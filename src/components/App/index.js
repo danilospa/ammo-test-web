@@ -23,16 +23,20 @@ class App extends React.Component {
 
   render() {
     const { fetchProducts, products, productPages, productCurrentPage,
-      productsPageSize, totalProducts, searchTerm, loading } = this.props;
+      productsPageSize, totalProducts, searchTerm, loading, fetchError } = this.props;
 
     return (
       <div className="app">
         <AppHeader fetchProducts={fetchProducts} searchTerm={searchTerm} loading={loading}/>
 
         <div className={`app__content ${searchTerm && '-with-search-term'}`}>
-          <div className="app__product-list-header">
-            <p className="app__products-count">{totalProducts} produtos encontrados</p>
-          </div>
+          { fetchError && (<p className="app__fetch-error-message">Erro ao buscar produtos</p>)}
+
+          { !fetchError && (
+            <div className="app__product-list-header">
+              <p className="app__products-count">{totalProducts} produtos encontrados</p>
+            </div>
+          )}
 
           { !!products.length && (
             <div>
