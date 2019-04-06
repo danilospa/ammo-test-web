@@ -1,0 +1,9 @@
+version: 2
+jobs:
+  teste:
+    docker:
+      - image: node
+    steps:
+      - checkout
+
+      - run: echo $TAG
