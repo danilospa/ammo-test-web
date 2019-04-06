@@ -1,4 +1,4 @@
-echo aa > huehue
+echo aa >> huehue
 
 git add huehue
 git config user.email "teste@gmail.com"
