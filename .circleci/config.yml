@@ -3,7 +3,8 @@ jobs:
   teste:
     docker:
       - image: node
+    working_directory: /my-project
     steps:
       - checkout
 
-      - run: echo $TAG
+      - run: ./run.sh
